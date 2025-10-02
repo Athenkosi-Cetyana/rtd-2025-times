@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rocking the Daisies — Lineup & Times</title>
+  <meta name="description" content="Schedule for Rocking the Daisies at Cloof Wine Estate, Darling — select day & stage to view set times." />
+  <style>
+    :root {
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#f59e0b;
+      --muted:#94a3b8;
+      --glass:rgba(255,255,255,0.03);
+    }
+    body.light {
+      --bg:#f9fafb;
+      --card:#ffffff;
+      --accent:#ea580c;
+      --muted:#64748b;
+      --glass:rgba(0,0,0,0.04);
+      color:#0f1724;
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
+      margin:0;
+      background:linear-gradient(180deg,var(--bg) 0%, #031028 100%);
+      color:#e6eef8;
+      min-height:100vh;
+      transition:background 0.3s,color 0.3s;
+    }
+    body.light{color:#111827;background:#f9fafb;}
+    .wrap{max-width:980px;margin:20px auto;padding:16px}
+    header{display:flex;gap:12px;align-items:center;justify-content:space-between}
+    h1{font-size:1.125rem;margin:0}
+    p.lead{margin:6px 0 18px;color:var(--muted);font-size:0.95rem}
+
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+    select,input[type="search"]{
+      padding:10px 12px;border-radius:10px;
+      border:1px solid rgba(255,255,255,0.06);
+      background:var(--card);color:inherit;min-width:140px
+    }
+    .card{
+      background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));
+      padding:12px;border-radius:12px;
+      box-shadow:0 6px 18px rgba(2,6,23,0.6);
+      transition:background 0.3s,box-shadow 0.3s;
+    }
+
+    .stage-grid{display:grid;grid-template-columns:1fr;gap:12px}
+    .stage{padding:10px;border-radius:10px;background:var(--glass);border:1px solid rgba(255,255,255,0.03)}
+    .stage h2{font-size:0.95rem;margin:0 0 8px}
+    .event{display:flex;gap:12px;align-items:center;padding:8px 6px;border-radius:8px}
+    .time{min-width:86px;font-family:monospace;font-size:0.92rem;color:var(--accent)}
+    .artist{flex:1;font-weight:600}
+    .empty{color:var(--muted);padding:18px;text-align:center}
+
+    footer{margin-top:18px;color:var(--muted);font-size:0.9rem}
+
+    .theme-toggle{
+      cursor:pointer;
+      padding:6px 10px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.1);
+      background:var(--card);
+      font-size:0.9rem;
+    }
+
+    @media(min-width:720px){
+      h1{font-size:1.25rem}
+      .stage-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(min-width:1100px){
+      .stage-grid{grid-template-columns:repeat(3,1fr)}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Rocking the Daisies — Schedule</h1>
+        <p class="lead">Select a day and stage to view set times.</p>
+      </div>
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle light/dark mode">🌙</button>
+    </header>
+
+    <div class="card">
+      <div class="controls">
+        <label for="daySelect" class="sr-only">Day</label>
+        <select id="daySelect" aria-label="Select day"></select>
+
+        <label for="stageSelect" class="sr-only">Stage</label>
+        <select id="stageSelect" aria-label="Select stage">
+          <option value="all">All Stages</option>
+        </select>
+
+        <input type="search" id="search" placeholder="Search artist or time" aria-label="Search schedule" />
+      </div>
+
+      <div id="scheduleContainer" class="stage-grid" aria-live="polite"></div>
+      <div id="note" class="empty" style="display:none"></div>
+    </div>
+
+    <footer>
+    Schedule is subject to change. Please refer to the official Rocking the Daisies website or Instagram page for the most up-to-date information.
+    </footer>
+  </div>
+
+  <script>
+    const scheduleData = [
+      {
+        "date":"2025-10-03",
+        "label":"Friday, 3 October",
+        "stages":[
+          {
+            "name":"Main Stage",
+            "events":[
+                {"time":"17:30-18:00","artist":"D'PHAULT SCOOP MAKHATHINI"},
+                {"time":"18:00-18:30","artist":"FILAH LAH LAH"},
+                {"time":"19:00-19:30","artist":"MARCUS HARVEY"},
+                {"time":"20:00-20:30","artist":"A-REECE"},
+                {"time":"21:00-21:45","artist":"ELAINE"},
+                {"time":"22:15-23:00","artist":"FOCALISTIC"},
+                {"time":"23:30-00:30","artist":"JESSIE REYEZ"},
+                {"time":"01:00-02:00","artist":"SUMMER WALKER"}
+            ]
+            },
+
+          {
+            "name":"Beach Club Stage",
+            "events":[
+                {"time":"10:00-11:00","artist":"BLACK VILLIAN"},
+                {"time":"11:00-12:00","artist":"EARFUL SOUL"},
+                {"time":"12:00-13:00","artist":"!SOOKS"},
+                {"time":"13:00-14:00","artist":"RYAN MURGATROYD"},
+                {"time":"14:00-15:00","artist":"ATMOS BLAQ"},
+                {"time":"15:00-16:00","artist":"KID FONQUE"},
+                {"time":"16:00-17:00","artist":"AV ON DECKS"},
+                {"time":"17:00-18:00","artist":"SHAMISO"},
+                {"time":"18:00-19:00","artist":"DJ ZINHLE"},
+                {"time":"19:00-20:00","artist":"FKA MASH"},
+                {"time":"20:00-21:00","artist":"SHAKES & LES"},
+                {"time":"21:00-21:30","artist":"SCOTTS MAPHUMA"},
+                {"time":"21:30-22:30","artist":"KABZA DE SMALL"},
+                {"time":"22:30-00:00","artist":"BLACK MOTION"},
+                {"time":"00:00-01:00","artist":"LELOWHATSGOOD"},
+                {"time":"01:00-02:00","artist":"CELSO FABBRI"},
+                {"time":"02:00-04:00","artist":"** SURPRISE **"}
+            ]
+            },
+
+          {
+            "name":"Sowing the Seed Stage",
+            "events":[
+              {"time":"10:30-11:15","artist":"CRAYONS"},
+              {"time":"11:15-12:15","artist":"MISS U"},
+              {"time":"12:15-13:15","artist":"OS-TAILOR"},
+              {"time":"13:15-14:15","artist":"WESLEY XTC"},
+              {"time":"14:30-15:00","artist":"MISHY KOPE"},
+              {"time":"15:00-15:30","artist":"KAYLA THE CROW"},
+              {"time":"15:45-16:45","artist":"MECCAMIND"},
+              {"time":"16:45-17:45","artist":"MISS CJ"},
+              {"time":"18:00-19:00","artist":"KDOLLAHZ X RTD LEGACY BALL"},
+              {"time":"19:00-20:00","artist":"TSELS DJ"},
+              {"time":"20:00-21:00","artist":"SOULCHOKE"},
+              {"time":"21:00-22:00","artist":"BRAVO LE ROUX"},
+              {"time":"22:00-23:00","artist":"KYEEZI"},
+              {"time":"23:00-00:00","artist":"WORKAHOLICS"},
+              {"time":"02:00-03:00","artist":"DJ CLEN"},
+              {"time":"03:00-04:00","artist":"RARI"}
+            ]
+          }
+        ]
+      },
+      {
+        "date":"2025-10-04",
+        "label":"Saturday, 4 October",
+        "stages":[
+          {
+            "name":"Main Stage",
+            "events":[
+                {"time":"16:30-17:00","artist":"D'PHAULT SCOOP MAKHATHINI"},
+                {"time":"17:15-18:15","artist":"KUJENGA"},
+                {"time":"18:45-19:30","artist":"LEE COLE"},
+                {"time":"20:00-20:30","artist":"SAXBYTWINS"},
+                {"time":"21:00-21:30","artist":"LOATINOVER POUNDS"},
+                {"time":"22:00-23:00","artist":"MEREBA"},
+                {"time":"23:30-00:30","artist":"SAM TOMPKINS"},
+                {"time":"01:00-02:00","artist":"EARL SWEATSHIRT"}
+            ]
+        },
+          {
+            "name":"Beach Club Stage",
+            "events":[
+              {"time":"10:00-11:00","artist":"AUTUMN ERIN"},
+              {"time":"11:00-12:00","artist":"AMY MAURITZ"},
+              {"time":"12:00-13:00","artist":"CHRONICAL DEEP"},
+              {"time":"13:00-14:00","artist":"2SHOES"},
+              {"time":"14:00-15:00","artist":"MASŠH"},
+              {"time":"15:00-16:00","artist":"TRISTAN URWIN"},
+              {"time":"16:00-17:00","artist":"DWSON"},
+              {"time":"17:00-18:00","artist":"CAIIRO B2B ENOO NAPA"},
+              {"time":"18:00-19:00","artist":"DJEFF"},
+              {"time":"19:00-20:00","artist":"PIERE JOHNSON"},
+              {"time":"20:00-21:00","artist":"SUMMER HEYNES"},
+              {"time":"21:00-22:30","artist":"LEEMCKRAZY"},
+              {"time":"22:30-23:30","artist":"VIGRO DEEP"},
+              {"time":"23:30-01:00","artist":"STARRZA"},
+              {"time":"01:00-02:00","artist":"SKELM"},
+              {"time":"02:00-03:00","artist":"QUE DJ"},
+              {"time":"03:00-04:00","artist":"NISKERONE"}
+            ]
+          },
+          {
+            "name":"Sowing the Seed Stage",
+            "events":[
+              {"time":"10:00-10:30","artist":"CRAYONS"},
+              {"time":"10:30-11:30","artist":"CHRISTIAN B2B SIP"},
+              {"time":"11:30-12:30","artist":"COLOR6LIND"},
+              {"time":"12:30-13:30","artist":"JASON SCOBLE"},
+              {"time":"13:30-14:30","artist":"GUVENCHY"},
+              {"time":"14:30-15:30","artist":"LOVER BOY"},
+              {"time":"15:30-16:30","artist":"SENHORÂ"},
+              {"time":"16:30-17:30","artist":"SHAKES"},
+              {"time":"17:30-19:30","artist":"RTD X GALXBOY FASHION SHOW"},
+              {"time":"18:30-19:30","artist":"KDOLLAHZ X RTD LEGACY BALL"},
+              {"time":"19:45-20:45","artist":"KEEM"},
+              {"time":"20:45-21:45","artist":"SHARKY"},
+              {"time":"21:45-22:45","artist":"ENRICO CELENTO B2B LIAM HANS"},
+              {"time":"23:00-00:00","artist":"KINDLYNXSH"},
+              {"time":"02:00-03:00","artist":"TEDDY TUMI"},
+              {"time":"03:00-04:00","artist":"BAKERGOTTHEKEYS"}
+            ]
+          }
+        ]
+      }
+    ];
+
+    const daySelect = document.getElementById('daySelect');
+    const stageSelect = document.getElementById('stageSelect');
+    const searchInput = document.getElementById('search');
+    const scheduleContainer = document.getElementById('scheduleContainer');
+    const note = document.getElementById('note');
+    const themeToggle = document.getElementById('themeToggle');
+
+    function populateDayOptions(){
+      scheduleData.forEach((d, idx) =>{
+        const opt = document.createElement('option');
+        opt.value = idx;
+        opt.textContent = d.label;
+        daySelect.appendChild(opt);
+      });
+      daySelect.selectedIndex = 0;
+    }
+
+    function populateStageOptions(dayIdx){
+      stageSelect.querySelectorAll('option:not([value="all"])').forEach(n=>n.remove());
+      const stages = scheduleData[dayIdx].stages;
+      stages.forEach((s, i)=>{
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = s.name;
+        stageSelect.appendChild(opt);
+      });
+      stageSelect.value = 'all';
+    }
+
+    function render(dayIdx, stageIdx, query){
+      scheduleContainer.innerHTML = '';
+      note.style.display = 'none';
+      const day = scheduleData[dayIdx];
+      const stagesToShow = stageIdx === 'all'
+        ? day.stages.map((s,i)=>({s,i}))
+        : [{s:day.stages[stageIdx], i:stageIdx}];
+
+      let any = false;
+      stagesToShow.forEach(({s})=>{
+        const events = s.events.filter(ev=>{
+          if(!query) return true;
+          const q = query.toLowerCase();
+          return ev.artist.toLowerCase().includes(q) || ev.time.toLowerCase().includes(q);
+        });
+        if(events.length===0) return;
+        any = true;
+        const st = document.createElement('section');
+        st.className = 'stage card';
+        const h = document.createElement('h2');
+        h.textContent = s.name;
+        st.appendChild(h);
+        events.forEach(ev=>{
+          const el = document.createElement('div');
+          el.className = 'event';
+          const t = document.createElement('div'); t.className='time'; t.textContent = ev.time;
+          const a = document.createElement('div'); a.className='artist'; a.textContent = ev.artist;
+          el.appendChild(t); el.appendChild(a);
+          st.appendChild(el);
+        });
+        scheduleContainer.appendChild(st);
+      });
+
+      if(!any){
+        note.style.display = 'block';
+        note.textContent = 'No results for that selection. Try All Stages or clear the search.';
+      }
+    }
+
+    daySelect.addEventListener('change', ()=>{
+      populateStageOptions(daySelect.value);
+      render(daySelect.value, stageSelect.value, searchInput.value.trim());
+    });
+
+    stageSelect.addEventListener('change', ()=>{
+      render(daySelect.value, stageSelect.value, searchInput.value.trim());
+    });
+
+    searchInput.addEventListener('input', ()=>{
+      render(daySelect.value, stageSelect.value, searchInput.value.trim());
+    });
+
+    themeToggle.addEventListener('click', ()=>{
+      document.body.classList.toggle('light');
+      themeToggle.textContent = document.body.classList.contains('light') ? '🌞' : '🌙';
+    });
+
+    populateDayOptions();
+    populateStageOptions(0);
+    render(0, 'all', '');
+  </script>
+</body>
+</html>

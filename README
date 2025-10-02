@@ -1,0 +1,59 @@
+Rocking the Daisies — Schedule Web App
+
+A static web application displaying the lineup and set times for the Rocking the Daisies festival at Cloof Wine Estate, Darling. Users can view schedules by day and stage, search for artists or times, and toggle between light/dark mode.
+
+This app is fully client-side and requires no server — simply deploy as a static HTML file.
+
+Features
+
+View festival lineup by day and stage.
+
+Search functionality for artist names or set times.
+
+Responsive design: Works on desktop, tablet, and mobile devices.
+
+Light/Dark mode toggle for comfortable viewing.
+
+Accessible: Uses proper ARIA attributes and semantic HTML.
+
+Project Structure
+
+index.html — Single-page HTML containing the full app, styles, and script.
+
+scheduleData — Array of objects embedded in the HTML defining days, stages, and events.
+
+How to Use
+
+Open index.html in any modern browser.
+
+Use the day selector to choose a festival day.
+
+Use the stage selector to filter by stage or select "All Stages".
+
+Use the search box to find an artist or specific time.
+
+Toggle light/dark mode with the button in the header.
+
+Deployment
+
+This app can be deployed as a static site:
+
+GitHub Pages: Place index.html in the root of a repository and enable Pages.
+
+Other static hosting: Netlify, Vercel, or any static file host.
+
+No server or backend configuration is required.
+
+Customization
+
+Modify scheduleData in the <script> section to update festival days, stages, or event times.
+
+Update styling via the <style> section.
+
+Credits
+
+Festival lineup information sourced from Rocking the Daisies 2025.
+
+License
+
+MIT License — free to use, modify, and deploy.
